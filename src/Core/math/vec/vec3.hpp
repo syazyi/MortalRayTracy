@@ -4,6 +4,8 @@ namespace mortal
 {
     inline namespace math
     { 
+        constexpr size_t FloatSize = sizeof(float);
+
         class Vec3f{
         public:
             Vec3f() = default;
@@ -19,6 +21,8 @@ namespace mortal
             Vec3f& operator-=(const Vec3f& right);
             Vec3f& operator*=(const float right);
             Vec3f& operator/=(const float right);
+            float& operator[](const size_t index);
+            float operator[](const size_t index) const;
         public:
             float x{ 0.0f };
             float y{ 0.0f };

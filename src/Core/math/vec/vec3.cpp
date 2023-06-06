@@ -4,6 +4,7 @@ namespace mortal
 {
     inline namespace math
     {
+
         Vec3f::Vec3f(float _x, float _y, float _z) : x(_x), y(_y), z(_z){}
         
         float Vec3f::Module() const{
@@ -58,6 +59,17 @@ namespace mortal
             this->y /= right;
             this->z /= right;
             return *this;
+        }
+
+        float& Vec3f::operator[](const size_t index)
+        {
+            //need assert 0 - 2
+            return *reinterpret_cast<float*>(reinterpret_cast<uint8_t*>(this) + index * FloatSize);
+        }
+
+        float Vec3f::operator[](const size_t index) const
+        {
+            return const_cast<Vec3f*>(this)->operator[](index);
         }
 
         Vec3f SampleUnitSphere()
