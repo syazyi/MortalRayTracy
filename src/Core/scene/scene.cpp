@@ -11,6 +11,7 @@
 #include "material/lambertian.hpp"
 #include "material/metal.hpp"
 #include "material/dielectric.hpp"
+#include "geometry/move_sphere.hpp"
 namespace mortal
 {
     Color Scene::BackgroundColor(const Ray& ray){
@@ -77,7 +78,7 @@ namespace mortal
         float aspect_ration = static_cast<float>(width) / static_cast<float>(height);
         Point3 lookFrom = Point3(13.0f, 2.0f, 3.0f);
         Point3 lookAt = Point3(0.0f, 0.0f, 0.0f);
-        Camera camera(lookFrom, lookAt, Vec3f(0.0f, 1.0f, 0.0f), 20.0f, aspect_ration, 0.1f, 10.f);
+        Camera camera(lookFrom, lookAt, Vec3f(0.0f, 1.0f, 0.0f), 20.0f, aspect_ration, 0.1f, 10.f, 0.0f, 0.1f);
 
         float bar = 1;
         std::ofstream myfile;
@@ -140,7 +141,9 @@ namespace mortal
                     if (choose_mat < 0.8f) {
                         // diffuse
                         auto albedo = Color(KRandom(), KRandom(), KRandom()) * Color(KRandom(), KRandom(), KRandom());
-                        world.Add(std::make_shared<Sphere>(center, 0.2f, std::make_shared<Lambertian>(albedo)));
+                        auto center2 = center + Point3(0, KRandom(0.5f, 1.5f), 0);
+                        world.Add(std::make_shared<MoveSphere>(center, center2, 0.0f, 1.0f, 0.2f, std::make_shared<Lambertian>(albedo)));
+                        //world.Add(std::make_shared<Sphere>(center, 0.2f, std::make_shared<Lambertian>(albedo)));
                     }
                     else if (choose_mat < 0.95f) {
                         // metal

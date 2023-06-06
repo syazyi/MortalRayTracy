@@ -27,8 +27,8 @@ namespace mortal
         //only Test
         void RandomWorld();
     public:
-        static const int width = 1200;
-        static const int height = 800;
+        static const int width = 400;
+        static const int height = 225;
         static const int antialiasingSamplerCount = 100;
         inline static std::array<std::array<Color, width>, height> framebuffer;
     private:

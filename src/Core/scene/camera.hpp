@@ -4,7 +4,7 @@ namespace mortal
 {
     class Camera {
     public:
-        explicit Camera(Point3 lookFrom, Point3 lookAt, Vec3f up, float fov, float aspect_ration, float apeture, float focusDist);
+        explicit Camera(Point3 lookFrom, Point3 lookAt, Vec3f up, float fov, float aspect_ration, float apeture, float focusDist, float time0, float time1);
         Ray GetRay(float s, float t) const;
     private:
         Point3 m_Position;
@@ -15,5 +15,7 @@ namespace mortal
         Vec3f m_ViewMatV;
         Vec3f m_ViewMatW;
         float m_LenRadius;
+        float m_Time0;
+        float m_Time1;
     };
 } // namespace mortal

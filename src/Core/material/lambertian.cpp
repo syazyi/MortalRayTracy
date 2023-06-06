@@ -10,7 +10,7 @@ namespace mortal
 		if (rayOutDir.NearZero()) {
 			rayOutDir = hitInfo.normal;
 		}
-		rayOut = Ray(hitInfo.position, rayOutDir);
+		rayOut = Ray(hitInfo.position, rayOutDir, rayIn.time);
 		attenuation = m_Albedo;
 		return true;
 	}

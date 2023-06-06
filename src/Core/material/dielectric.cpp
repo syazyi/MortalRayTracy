@@ -24,7 +24,7 @@ namespace mortal
         else {
             rayOutDir = Refract(rayIn.direction, hitInfo.normal, refractive);
         }
-        rayOut = Ray(hitInfo.position, rayOutDir);
+        rayOut = Ray(hitInfo.position, rayOutDir, rayIn.time);
         return true;
     }
 
