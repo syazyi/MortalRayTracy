@@ -9,7 +9,7 @@ namespace mortal
 	{
 		m_Objects.clear();
 	}
-	bool HitList::HitIntersectionRay(const Ray& ray, float tMin, float tMax, HitResult& hitResult)
+	bool HitList::HitIntersectionRay(const Ray& ray, float tMin, float tMax, HitResult& hitResult) const
 	{
 		HitResult temp;
 		bool ret = false;
@@ -23,5 +23,23 @@ namespace mortal
 			}
 		}
 		return ret;
+	}
+
+	bool HitList::AxisAlignBoundBox(float time0, float time1, AABB& aabb) const
+	{
+		if (m_Objects.empty()) {
+			return false;
+		}
+
+		AABB outAABB;
+		AABB tempAABB;
+		for (auto& object : m_Objects) {
+			if (!object->AxisAlignBoundBox(time0, time1, tempAABB)) {
+				return false;
+			}
+			outAABB = outAABB + tempAABB;
+		}
+		aabb = outAABB;
+		return true;
 	}
 } // namespace mortal

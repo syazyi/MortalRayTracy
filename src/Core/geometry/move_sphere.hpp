@@ -6,8 +6,9 @@ namespace mortal
     public:
         MoveSphere() = default;
         MoveSphere(const Point3& center0, const Point3& center1, float time0, float time1, float radius, std::shared_ptr<Material> material);
-        virtual bool HitIntersectionRay(const Ray& ray, float tMin, float tMax, HitResult& hitResult) override;
-        Point3 GetRealCenter(float time);
+        virtual bool HitIntersectionRay(const Ray& ray, float tMin, float tMax, HitResult& hitResult) const override;
+        virtual bool AxisAlignBoundBox(float time0, float time1, AABB& aabb) const override;
+        Point3 GetRealCenter(float time) const;
     private:
         Point3 m_Center0;
         Point3 m_Center1;

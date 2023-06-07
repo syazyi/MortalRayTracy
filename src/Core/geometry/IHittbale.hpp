@@ -2,6 +2,7 @@
 #include "math/vec/vec3.hpp"
 #include "geometry/ray.hpp"
 #include "material/material.hpp"
+#include "AABB.hpp"
 namespace mortal
 {
     class Material;
@@ -16,6 +17,7 @@ namespace mortal
 
     class IHittbale {
     public:
-        virtual bool HitIntersectionRay(const Ray& ray, float tMin, float tMax, HitResult& hitResult) = 0;
+        virtual bool HitIntersectionRay(const Ray& ray, float tMin, float tMax, HitResult& hitResult) const = 0;
+        virtual bool AxisAlignBoundBox(float time0, float time1, AABB& aabb) const = 0;
     };
 } // namespace mortal

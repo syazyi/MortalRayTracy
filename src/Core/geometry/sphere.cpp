@@ -19,7 +19,7 @@ namespace mortal
         return (delta > 0.0f);
     }
 
-    bool Sphere::HitIntersectionRay(const Ray& ray, float tMin, float tMax, HitResult& hitResult)
+    bool Sphere::HitIntersectionRay(const Ray& ray, float tMin, float tMax, HitResult& hitResult) const
     {
         auto OmC = ray.original - m_Center;
         //vec(d)^2 * t^2 + 2 * vec(omc) * vec(d) * t + vec(omc)^2 - r^2;
@@ -48,5 +48,12 @@ namespace mortal
             return true;
         }
         return false;
+    }
+
+    bool Sphere::AxisAlignBoundBox(float time0, float time1, AABB& aabb) const
+    {
+        aabb = AABB(m_Center + Vec3f(m_Radius, m_Radius, m_Radius),
+            m_Center - Vec3f(m_Radius, m_Radius, m_Radius));
+        return true;
     }
 } // namespace mortal

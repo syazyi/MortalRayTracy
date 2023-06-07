@@ -8,7 +8,7 @@ namespace mortal
 
 	}
 
-	bool MoveSphere::HitIntersectionRay(const Ray& ray, float tMin, float tMax, HitResult& hitResult)
+	bool MoveSphere::HitIntersectionRay(const Ray& ray, float tMin, float tMax, HitResult& hitResult) const
 	{
         auto OmC = ray.original - GetRealCenter(ray.time);
         //vec(d)^2 * t^2 + 2 * vec(omc) * vec(d) * t + vec(omc)^2 - r^2;
@@ -37,10 +37,17 @@ namespace mortal
             return true;
         }
         return false;
-
 	}
 
-	Point3 MoveSphere::GetRealCenter(float time)
+    bool MoveSphere::AxisAlignBoundBox(float time0, float time1, AABB& aabb) const
+    {
+        AABB aabb0 = AABB(GetRealCenter(time0) + Vec3f(m_Radius, m_Radius, m_Radius), GetRealCenter(time0) - Vec3f(m_Radius, m_Radius, m_Radius));
+        AABB aabb1 = AABB(GetRealCenter(time1) + Vec3f(m_Radius, m_Radius, m_Radius), GetRealCenter(time1) - Vec3f(m_Radius, m_Radius, m_Radius));
+        aabb = aabb0 + aabb1;
+        return true;
+    }
+
+	Point3 MoveSphere::GetRealCenter(float time) const
 	{
 		return m_Center0 + (time - m_Time0) / (m_Time1 - m_Time0) * (m_Center1 - m_Center0);
 	}
