@@ -15,8 +15,6 @@ namespace mortal
         std::shared_ptr<IHittbale> m_Left;
         std::shared_ptr<IHittbale> m_Right;
         AABB m_Box;
-
-        inline static bool FirstBuildNode = true;
     };
 
 
