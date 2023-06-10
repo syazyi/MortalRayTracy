@@ -12,6 +12,8 @@ namespace mortal
         Point3 normal;
         Material* material;
         float t;
+        float u;
+        float v;
         bool frontFace;
     };
 

@@ -12,6 +12,8 @@
 #include "material/metal.hpp"
 #include "material/dielectric.hpp"
 #include "geometry/move_sphere.hpp"
+#include "material/lambertian_texture.hpp"
+#include "texture/check_texture.hpp"
 namespace mortal
 {
     Color Scene::BackgroundColor(const Ray& ray){
@@ -84,7 +86,8 @@ namespace mortal
         std::ofstream myfile;
         myfile.open("test.ppm");
         myfile << "P3\n" << width << " " << height << "\n255\n";
-#pragma omp parallel for
+//#pragma omp parallel for
+#pragma omp parallel for schedule(dynamic, 1)
         for (int i = height - 1; i >= 0; i--) {
             std::cout << "\rprogress: " << (int)(bar / height * 100) << "% " << std::flush;
             bar++;
@@ -128,9 +131,11 @@ namespace mortal
     void mortal::Scene::RandomWorld()
     {
         materials.Add("ground_material", std::make_shared<Lambertian>(Color(0.5f, 0.5f, 0.5f)));
+        materials.Add("ground_material_check", std::make_shared<LambertianWithTexture>(std::make_shared<CheckTexture>()));
         materials.Add("sphere_material_glass", std::make_shared<Dielectric>(1.5f));
 
-        world.Add(std::make_shared<Sphere>(Point3(0.0f, -1000.f, 0.0f), 1000.f, materials.Get("ground_material")));
+        //world.Add(std::make_shared<Sphere>(Point3(0.0f, -1000.f, 0.0f), 1000.f, materials.Get("ground_material")));
+        world.Add(std::make_shared<Sphere>(Point3(0.0f, -1000.f, 0.0f), 1000.f, materials.Get("ground_material_check")));
 
         for (int a = -11; a < 11; a++) {
             for (int b = -11; b < 11; b++) {

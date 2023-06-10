@@ -45,6 +45,7 @@ namespace mortal
             if (!hitResult.frontFace) {
                 hitResult.normal = -hitResult.normal;
             }
+            GetSphereUV(hitResult.position, hitResult.u, hitResult.v);
             return true;
         }
         return false;
@@ -55,5 +56,14 @@ namespace mortal
         aabb = AABB(m_Center + Vec3f(m_Radius, m_Radius, m_Radius),
             m_Center - Vec3f(m_Radius, m_Radius, m_Radius));
         return true;
+    }
+
+    void Sphere::GetSphereUV(const Point3& p, float& u, float& v)
+    {
+        auto theta = acos(-p.y);
+        auto phi = atan2(-p.z, p.x) + Pi;
+
+        u = theta * OneDiv2Pi;
+        v = phi * OneDivPi;
     }
 } // namespace mortal
