@@ -15,6 +15,13 @@ namespace mortal
     //    float far;
     //};
 
+    enum class WorldType{
+        ERandomWorld,
+        ETextureTestWorld,
+        ELightTestWorld,
+        ECornellBox
+    };
+
     class Scene{
     public:
         static Color BackgroundColor(const Ray& ray);
@@ -25,7 +32,7 @@ namespace mortal
         void WriteInPPMSingleColor(const int width, const int height, const Color& color);
 
         //only Test
-        void RandomWorld();
+        void RandomWorld(WorldType type);
     public:
         static const int width = 400;
         static const int height = 225;

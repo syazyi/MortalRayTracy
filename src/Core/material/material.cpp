@@ -2,6 +2,13 @@
 
 namespace mortal
 {
+		
+    Color Material::Emitted(float u, float v, const Point3 &p) const
+    {
+        return Color(0.0f, 0.0f, 0.0f);
+    }
+
+
 	bool MaterialDefault::Scatter(const Ray& rayIn, const HitResult& hitInfo, Color& attenuation, Ray& rayOut) {
 		attenuation = Color(0.0f, 0.0f, 0.0f);
 		return true;
@@ -19,4 +26,5 @@ namespace mortal
 	{
 		return m_Materials.find(name)->second;
 	}
+
 } // namespace mortal

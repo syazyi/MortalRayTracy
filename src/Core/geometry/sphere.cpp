@@ -45,7 +45,7 @@ namespace mortal
             if (!hitResult.frontFace) {
                 hitResult.normal = -hitResult.normal;
             }
-            GetSphereUV(hitResult.position, hitResult.u, hitResult.v);
+            GetSphereUV(hitResult.normal, hitResult.u, hitResult.v);
             return true;
         }
         return false;
@@ -63,7 +63,7 @@ namespace mortal
         auto theta = acos(-p.y);
         auto phi = atan2(-p.z, p.x) + Pi;
 
-        u = theta * OneDiv2Pi;
-        v = phi * OneDivPi;
+        u = phi * OneDiv2Pi;
+        v = theta * OneDivPi;
     }
 } // namespace mortal
