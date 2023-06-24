@@ -5,14 +5,14 @@
 #include <array>
 namespace mortal
 {
-
+    class Camera;
     //class Camera {
     //public:
     //    Point3 position;
-    //    float fov;
-    //    float aspect;
-    //    float near;
-    //    float far;
+    //    double fov;
+    //    double aspect;
+    //    double near;
+    //    double far;
     //};
 
     enum class WorldType{
@@ -32,11 +32,11 @@ namespace mortal
         void WriteInPPMSingleColor(const int width, const int height, const Color& color);
 
         //only Test
-        void RandomWorld(WorldType type);
+        void RandomWorld(WorldType type, Camera& camera);
     public:
-        static const int width = 400;
-        static const int height = 225;
-        static const int antialiasingSamplerCount = 100;
+        static const int width = 600;
+        static const int height = 600;
+        static const int antialiasingSamplerCount = 1000;
         inline static std::array<std::array<Color, width>, height> framebuffer;
     private:
         HitList world;

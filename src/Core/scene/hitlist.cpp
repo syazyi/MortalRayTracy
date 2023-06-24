@@ -9,7 +9,7 @@ namespace mortal
 	{
 		m_Objects.clear();
 	}
-	bool HitList::HitIntersectionRay(const Ray& ray, float tMin, float tMax, HitResult& hitResult) const
+	bool HitList::HitIntersectionRay(const Ray& ray, double tMin, double tMax, HitResult& hitResult) const
 	{
 		HitResult temp;
 		bool ret = false;
@@ -25,7 +25,7 @@ namespace mortal
 		return ret;
 	}
 
-	bool HitList::AxisAlignBoundBox(float time0, float time1, AABB& aabb) const
+	bool HitList::AxisAlignBoundBox(double time0, double time1, AABB& aabb) const
 	{
 		if (m_Objects.empty()) {
 			return false;

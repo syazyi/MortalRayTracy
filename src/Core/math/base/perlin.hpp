@@ -11,7 +11,7 @@ namespace mortal
 
     private:
         constexpr static int PerlinPointCount = 256;
-        std::vector<float> m_RandFloatValues;
+        std::vector<double> m_RandFloatValues;
 
     };
 

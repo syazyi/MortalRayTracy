@@ -2,7 +2,7 @@
 
 namespace mortal
 {
-    Metal::Metal(const Color& albedo, float fuzzy) : m_Albedo(albedo), m_Fuzzy(fuzzy)
+    Metal::Metal(const Color& albedo, double fuzzy) : m_Albedo(albedo), m_Fuzzy(fuzzy)
     {
 
     }
@@ -11,7 +11,7 @@ namespace mortal
     {
         rayOut = Ray(hitInfo.position, Reflect(rayIn.direction, hitInfo.normal) + m_Fuzzy * SampleUnitSphere(), rayIn.time);
         attenuation = m_Albedo;
-        return Dot(rayOut.direction, hitInfo.normal) > 0.0f;
+        return Dot(rayOut.direction, hitInfo.normal) > 0.0;
     }
 
 } // namespace mortal

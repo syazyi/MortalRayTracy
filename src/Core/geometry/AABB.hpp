@@ -14,16 +14,16 @@ namespace mortal
         AABB();
         AABB(const Point3& top, const Point3& bottom);
 
-        bool BeHit(const Ray& ray, float t_min, float t_max) const;
+        bool BeHit(const Ray& ray, double t_min, double t_max) const;
 
         EAxis GetLongestAxis();
-        float GetAxisLength(EAxis axis);
+        double GetAxisLength(EAxis axis);
 
         Point3 m_Top;
         Point3 m_Bottom;
     private:
-        bool StandardHitFunc(const Ray& ray, float t_min, float t_max) const;
-        bool TutorialHitFunc(const Ray& ray, float t_min, float t_max) const;
+        bool StandardHitFunc(const Ray& ray, double t_min, double t_max) const;
+        bool TutorialHitFunc(const Ray& ray, double t_min, double t_max) const;
     };
 
     AABB operator+(const AABB& left, const AABB& right);

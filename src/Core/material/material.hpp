@@ -10,7 +10,7 @@ namespace mortal
     class Material {
     public:
         virtual bool Scatter(const Ray& rayIn, const HitResult& hitInfo, Color& attenuation, Ray& rayOut) = 0;
-        virtual Color Emitted(float u, float v, const Point3& p) const;
+        virtual Color Emitted(double u, double v, const Point3& p) const;
         ~Material() {};
     };
 

@@ -6,7 +6,7 @@ namespace mortal
         Need to modify, if according to my idea, AABB needs to be stored in each object first. 
         But here, follow the tutorial first.
     */
-    BVHNode::BVHNode(const HitList& list, size_t start, size_t end, float time0, float time1)
+    BVHNode::BVHNode(const HitList& list, size_t start, size_t end, double time0, double time1)
     {
         HitList tempList;
         tempList.m_Objects = std::vector<std::shared_ptr<IHittbale>>(list.m_Objects.begin() + start, list.m_Objects.begin() + end);
@@ -76,7 +76,7 @@ namespace mortal
         }
     }
 
-    bool BVHNode::HitIntersectionRay(const Ray& ray, float tMin, float tMax, HitResult& hitResult) const
+    bool BVHNode::HitIntersectionRay(const Ray& ray, double tMin, double tMax, HitResult& hitResult) const
     {
         if (!m_Box.BeHit(ray, tMin, tMax)) {
             return false;
@@ -87,7 +87,7 @@ namespace mortal
         return hitLeft || hitRight;
     }
 
-    bool BVHNode::AxisAlignBoundBox(float time0, float time1, AABB& aabb) const
+    bool BVHNode::AxisAlignBoundBox(double time0, double time1, AABB& aabb) const
     {
         aabb = m_Box;
         return true;

@@ -26,7 +26,7 @@ namespace mortal
             return ret;
         }
 
-        float Clamp(float value, float min, float max);
+        double Clamp(double value, double min, double max);
 
     } // namespace math
 } // namespace mortal

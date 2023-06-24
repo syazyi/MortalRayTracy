@@ -6,11 +6,11 @@ namespace mortal
     {
 
     }
-    SolidTexture::SolidTexture(float r, float g, float b) : m_ColorValue(r, g, b)
+    SolidTexture::SolidTexture(double r, double g, double b) : m_ColorValue(r, g, b)
     {
 
     }
-    Color SolidTexture::TextureSample(float u, float v, const Point3& p) const
+    Color SolidTexture::TextureSample(double u, double v, const Point3& p) const
     {
         return m_ColorValue;
     }

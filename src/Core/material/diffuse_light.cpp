@@ -18,7 +18,7 @@ namespace mortal
         return false;
     }
 
-    Color DiffuseLight::Emitted(float u, float v, const Point3 &p) const
+    Color DiffuseLight::Emitted(double u, double v, const Point3 &p) const
     {
         return m_Emit->TextureSample(u, v, p);
     }

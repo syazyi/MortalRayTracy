@@ -11,15 +11,15 @@ namespace mortal
         Point3 position;
         Point3 normal;
         Material* material;
-        float t;
-        float u;
-        float v;
+        double t;
+        double u;
+        double v;
         bool frontFace;
     };
 
     class IHittbale {
     public:
-        virtual bool HitIntersectionRay(const Ray& ray, float tMin, float tMax, HitResult& hitResult) const = 0;
-        virtual bool AxisAlignBoundBox(float time0, float time1, AABB& aabb) const = 0;
+        virtual bool HitIntersectionRay(const Ray& ray, double tMin, double tMax, HitResult& hitResult) const = 0;
+        virtual bool AxisAlignBoundBox(double time0, double time1, AABB& aabb) const = 0;
     };
 } // namespace mortal

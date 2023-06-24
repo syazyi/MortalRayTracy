@@ -4,12 +4,12 @@ namespace mortal
 {
     class Dielectric : public Material {
     public:
-        Dielectric(float refraction);
+        Dielectric(double refraction);
         virtual bool Scatter(const Ray& rayIn, const HitResult& hitInfo, Color& attenuation, Ray& rayOut) override;
     private:
-        float Reflectance(float cosine, float refractiveIndex);
+        double Reflectance(double cosine, double refractiveIndex);
     private:
-        float m_RefractiveIndex;
+        double m_RefractiveIndex;
     };
 
     

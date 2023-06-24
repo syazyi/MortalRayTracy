@@ -2,23 +2,23 @@
 
 namespace mortal
 {
-    Dielectric::Dielectric(float refraction) : m_RefractiveIndex(refraction)
+    Dielectric::Dielectric(double refraction) : m_RefractiveIndex(refraction)
     {
 
     }
 
     bool Dielectric::Scatter(const Ray& rayIn, const HitResult& hitInfo, Color& attenuation, Ray& rayOut)
     {
-        attenuation = Color(1.0f, 1.0f, 1.0f);
+        attenuation = Color(1.0, 1.0, 1.0);
         //if from inside to outside , RefractiveIndex shoulde be constracted.
         auto refractive = m_RefractiveIndex;
         if (hitInfo.frontFace) {
-            refractive = 1.0f / refractive;
+            refractive = 1.0 / refractive;
         }
-        auto cosTheta = fmin(fmax(Dot(-rayIn.direction, hitInfo.normal), 0.0f), 1.0f);
-        auto sinTheta = KSqrt(1.0f - cosTheta * cosTheta);
-        Vec3f rayOutDir;
-        if ((sinTheta * refractive) > 1.0f || Reflectance(cosTheta, refractive) > KRandom()) {
+        auto cosTheta = fmin(fmax(Dot(-rayIn.direction, hitInfo.normal), 0.0), 1.0);
+        auto sinTheta = KSqrt(1.0 - cosTheta * cosTheta);
+        Vec3 rayOutDir;
+        if ((sinTheta * refractive) > 1.0 || Reflectance(cosTheta, refractive) > KRandom()) {
             rayOutDir = Reflect(rayIn.direction, hitInfo.normal);
         }
         else {
@@ -28,11 +28,11 @@ namespace mortal
         return true;
     }
 
-    float Dielectric::Reflectance(float cosine, float refractiveIndex)
+    double Dielectric::Reflectance(double cosine, double refractiveIndex)
     {
-        auto R0 = (1.0f - refractiveIndex) / (1.0f + refractiveIndex);
+        auto R0 = (1.0 - refractiveIndex) / (1.0 + refractiveIndex);
         R0 = R0 * R0;
-        return R0 + (1.0f - R0) * pow((1.0f - cosine), 5);
+        return R0 + (1.0 - R0) * pow((1.0 - cosine), 5);
     }
 
 } // namespace mortal

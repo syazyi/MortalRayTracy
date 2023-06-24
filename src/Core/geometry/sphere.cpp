@@ -2,7 +2,7 @@
 #include "math/base/calculate.hpp"
 namespace mortal
 {
-    Sphere::Sphere(const Point3& center, float radius, std::shared_ptr<Material> material) : m_Center(center), m_Radius(radius), m_Material(material)
+    Sphere::Sphere(const Point3& center, double radius, std::shared_ptr<Material> material) : m_Center(center), m_Radius(radius), m_Material(material)
     {
 
     }
@@ -11,24 +11,24 @@ namespace mortal
     {
         auto OmC = ray.original - m_Center;
         //vec(d)^2 * t^2 + 2 * vec(omc) * vec(d) * t + vec(omc)^2 - r^2;
-        //float b = 2.f * Dot(OmC, ray.direction);
-        float h = Dot(OmC, ray.direction);
-        float a = ray.direction.ModuleSquare();
-        float c = OmC.ModuleSquare() - m_Radius * m_Radius;
-        float delta = h * h - a * c;
-        return (delta > 0.0f);
+        //double b = 2.f * Dot(OmC, ray.direction);
+        double h = Dot(OmC, ray.direction);
+        double a = ray.direction.ModuleSquare();
+        double c = OmC.ModuleSquare() - m_Radius * m_Radius;
+        double delta = h * h - a * c;
+        return (delta > 0.0);
     }
 
-    bool Sphere::HitIntersectionRay(const Ray& ray, float tMin, float tMax, HitResult& hitResult) const
+    bool Sphere::HitIntersectionRay(const Ray& ray, double tMin, double tMax, HitResult& hitResult) const
     {
         auto OmC = ray.original - m_Center;
         //vec(d)^2 * t^2 + 2 * vec(omc) * vec(d) * t + vec(omc)^2 - r^2;
-        //float b = 2.f * Dot(OmC, ray.direction);
-        float h = Dot(OmC, ray.direction);
-        float a = ray.direction.ModuleSquare();
-        float c = OmC.ModuleSquare() - m_Radius * m_Radius;
-        float delta = h * h - a * c;
-        if (delta >= 0.0f) {
+        //double b = 2.f * Dot(OmC, ray.direction);
+        double h = Dot(OmC, ray.direction);
+        double a = ray.direction.ModuleSquare();
+        double c = OmC.ModuleSquare() - m_Radius * m_Radius;
+        double delta = h * h - a * c;
+        if (delta >= 0.0) {
             hitResult.t = (-h - KSqrt(delta)) / a;
             if (hitResult.t < tMin || hitResult.t > tMax) {
                 hitResult.t = (-h + KSqrt(delta)) / a;
@@ -37,10 +37,10 @@ namespace mortal
                 }
             }
             hitResult.position = ray.at(hitResult.t);
-            //if radius < 0.0f normal will be change.
+            //if radius < 0.0 normal will be change.
             hitResult.normal = (hitResult.position - m_Center) / m_Radius;
             auto dir_n = Dot(ray.direction, hitResult.normal);
-            hitResult.frontFace = dir_n < 0.0f;
+            hitResult.frontFace = dir_n < 0.0;
             hitResult.material = m_Material.get();
             if (!hitResult.frontFace) {
                 hitResult.normal = -hitResult.normal;
@@ -51,14 +51,14 @@ namespace mortal
         return false;
     }
 
-    bool Sphere::AxisAlignBoundBox(float time0, float time1, AABB& aabb) const
+    bool Sphere::AxisAlignBoundBox(double time0, double time1, AABB& aabb) const
     {
-        aabb = AABB(m_Center + Vec3f(m_Radius, m_Radius, m_Radius),
-            m_Center - Vec3f(m_Radius, m_Radius, m_Radius));
+        aabb = AABB(m_Center + Vec3(m_Radius, m_Radius, m_Radius),
+            m_Center - Vec3(m_Radius, m_Radius, m_Radius));
         return true;
     }
 
-    void Sphere::GetSphereUV(const Point3& p, float& u, float& v)
+    void Sphere::GetSphereUV(const Point3& p, double& u, double& v)
     {
         auto theta = acos(-p.y);
         auto phi = atan2(-p.z, p.x) + Pi;

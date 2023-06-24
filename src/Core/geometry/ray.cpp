@@ -1,11 +1,11 @@
 #include "ray.hpp"
 namespace mortal
 {
-    Ray::Ray(const Point3& _orig, const Vec3f& _dir, float _time) : original(_orig), direction(_dir), time(_time){
+    Ray::Ray(const Point3& _orig, const Vec3& _dir, double _time) : original(_orig), direction(_dir), time(_time){
         direction.NormalLize();
     }
 
-    Vec3f Ray::at(float t) const{
+    Vec3 Ray::at(double t) const{
         return original + t * direction;
     }
 } // namespace mortal

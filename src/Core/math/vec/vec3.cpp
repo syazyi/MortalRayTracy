@@ -5,31 +5,31 @@ namespace mortal
     inline namespace math
     {
 
-        Vec3f::Vec3f(float _x, float _y, float _z) : x(_x), y(_y), z(_z){}
+        Vec3::Vec3(double _x, double _y, double _z) : x(_x), y(_y), z(_z){}
         
-        float Vec3f::Module() const{
+        double Vec3::Module() const{
             return KSqrt(x * x + y * y + z * z);
         }
 
-        float Vec3f::ModuleSquare() const{
+        double Vec3::ModuleSquare() const{
             return x * x + y * y + z * z;
         }
 
-        Vec3f& Vec3f::NormalLize(){
-            float module = this->Module();
+        Vec3& Vec3::NormalLize(){
+            double module = this->Module();
             this->x /= module;
             this->y /= module;
             this->z /= module;
             return *this;
         }
 
-        bool Vec3f::NearZero()
+        bool Vec3::NearZero()
         {
             const Float zero = Eps;
             return (fabs(x) < zero) && (fabs(y) < zero) && (fabs(z) < zero);
         }
 
-        Vec3f& Vec3f::operator+=(const Vec3f& right)
+        Vec3& Vec3::operator+=(const Vec3& right)
         {
             this->x += right.x;
             this->y += right.y;
@@ -37,7 +37,7 @@ namespace mortal
             return *this;
         }
 
-        Vec3f& Vec3f::operator-=(const Vec3f& right)
+        Vec3& Vec3::operator-=(const Vec3& right)
         {
             this->x -= right.x;
             this->y -= right.y;
@@ -45,7 +45,7 @@ namespace mortal
             return *this;
         }
 
-        Vec3f& Vec3f::operator*=(const float right)
+        Vec3& Vec3::operator*=(const double right)
         {
             this->x *= right;
             this->y *= right;
@@ -53,7 +53,7 @@ namespace mortal
             return *this;
         }
 
-        Vec3f& Vec3f::operator/=(const float right)
+        Vec3& Vec3::operator/=(const double right)
         {
             this->x /= right;
             this->y /= right;
@@ -61,33 +61,41 @@ namespace mortal
             return *this;
         }
 
-        float& Vec3f::operator[](const size_t index)
+        double& Vec3::operator[](const size_t index)
         {
             //need assert 0 - 2
-            return *reinterpret_cast<float*>(reinterpret_cast<uint8_t*>(this) + index * FloatSize);
+            return *reinterpret_cast<double*>(reinterpret_cast<uint8_t*>(this) + index * FloatSize);
         }
 
-        float Vec3f::operator[](const size_t index) const
+        double Vec3::operator[](const size_t index) const
         {
-            return const_cast<Vec3f*>(this)->operator[](index);
+            return const_cast<Vec3*>(this)->operator[](index);
         }
 
-        Vec3f SampleUnitSphere()
+        Vec3 SampleUnitSphere()
         {
-            Vec3f ret;
-            auto theta = (KRandom() * Pi * 2) - Pi;
-            auto phi = (KRandom() * Pi * 2) - Pi;
+            Vec3 ret;
+            auto theta = acos(1 - 2.0 * KRandom());
+            auto phi = KRandom() * Pi * 2.0;
 
             ret.x = sin(theta) * cos(phi);
             ret.y = sin(theta) * sin(phi);
             ret.z = cos(theta);
 
             return ret;
+
+            /*while (1) {
+                Vec3 ret(KRandom(-1.0, 1.0), KRandom(-1.0, 1.0), KRandom(-1.0, 1.0));
+                if (ret.Module() >= 1.0) {
+                    continue;
+                }
+                return ret.NormalLize();
+            }*/
         }
 
-        Vec3f SampleHemisphere()
+        Vec3 SampleHemisphere()
         {
-            Vec3f ret;
+            Vec3 ret;
             auto theta = KRandom() * Pi;
             auto phi = (KRandom() * Pi * 2) - Pi;
 
@@ -98,16 +106,16 @@ namespace mortal
             return ret;
         }
 
-        Vec3f SampleUniformHemisphere()
+        Vec3 SampleUniformHemisphere()
         {
-            return Vec3f();
+            return Vec3();
         }
 
 
-        Vec3f SampleCircular() {
-            auto theta = 2.0f * Pi * KRandom();
+        Vec3 SampleCircular() {
+            auto theta = 2.0 * Pi * KRandom();
             auto r = KSqrt(KRandom());
-            return Vec3f(r * cos(theta), r * sin(theta), 0.0f);
+            return Vec3(r * cos(theta), r * sin(theta), 0.0);
         }
     } // namespace math
 } // namespace mortal

@@ -4,6 +4,6 @@ namespace mortal
 {
     class Texture {
     public:
-        virtual Color TextureSample(float u, float v, const Point3& p) const = 0;
+        virtual Color TextureSample(double u, double v, const Point3& p) const = 0;
     };
 } // namespace mortal

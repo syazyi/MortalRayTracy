@@ -8,12 +8,12 @@ namespace mortal
             auto Color = Gamma20(col);
             //auto Color = col;
             os 
-            << static_cast<int>(255.999 * Clamp(Color.x, 0.0f, 1.0f)) << " "
-            << static_cast<int>(255.999 * Clamp(Color.y, 0.0f, 1.0f)) << " "
-            << static_cast<int>(255.999 * Clamp(Color.z, 0.0f, 1.0f)) << "\n";
+            << static_cast<int>(255.999 * Clamp(Color.x, 0.0, 1.0)) << " "
+            << static_cast<int>(255.999 * Clamp(Color.y, 0.0, 1.0)) << " "
+            << static_cast<int>(255.999 * Clamp(Color.z, 0.0, 1.0)) << "\n";
         }
 
-        float Clamp(float value, float min, float max)
+        double Clamp(double value, double min, double max)
         {
             if (value < min) {
                 return min;

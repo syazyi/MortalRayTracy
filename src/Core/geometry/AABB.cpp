@@ -4,15 +4,15 @@ namespace mortal
 {
 	AABB::AABB()
 	{
-		m_Top = Point3(std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max());
-		m_Bottom = Point3(std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), std::numeric_limits<float>::min());
+		m_Top = Point3(std::numeric_limits<double>::max(), std::numeric_limits<double>::max(), std::numeric_limits<double>::max());
+		m_Bottom = Point3(std::numeric_limits<double>::min(), std::numeric_limits<double>::min(), std::numeric_limits<double>::min());
 	}
 	AABB::AABB(const Point3& top, const Point3& bottom) : m_Top(top), m_Bottom(bottom)
 	{
 
 	}
 
-	bool AABB::BeHit(const Ray& ray, float t_min, float t_max) const
+	bool AABB::BeHit(const Ray& ray, double t_min, double t_max) const
 	{
 		return TutorialHitFunc(ray, t_min, t_max);
 	}
@@ -41,7 +41,7 @@ namespace mortal
 		}
 	}
 
-	float AABB::GetAxisLength(EAxis axis)
+	double AABB::GetAxisLength(EAxis axis)
 	{
 		switch (axis)
 		{
@@ -57,18 +57,18 @@ namespace mortal
 		}
 	}
 
-	bool AABB::StandardHitFunc(const Ray& ray, float t_min, float t_max) const
+	bool AABB::StandardHitFunc(const Ray& ray, double t_min, double t_max) const
 	{
 		return false;
 	}
 
-	bool AABB::TutorialHitFunc(const Ray& ray, float t_min, float t_max) const
+	bool AABB::TutorialHitFunc(const Ray& ray, double t_min, double t_max) const
 	{
 		for (int i = 0; i < 3; i++) {
-			float div = 1.0f / ray.direction[i];
-			float t0 = fminf((m_Top[i] - ray.original[i]) * div, (m_Bottom[i] - ray.original[i]) * div);
-			float t1 = fmaxf((m_Top[i] - ray.original[i]) * div, (m_Bottom[i] - ray.original[i]) * div);
-			if (div < 0.0f) {
+			double div = 1.0 / ray.direction[i];
+			double t0 = fminf((m_Top[i] - ray.original[i]) * div, (m_Bottom[i] - ray.original[i]) * div);
+			double t1 = fmaxf((m_Top[i] - ray.original[i]) * div, (m_Bottom[i] - ray.original[i]) * div);
+			if (div < 0.0) {
 				std::swap(t0, t1);
 			}
 			t_min = t0 > t_min ? t0 : t_min;

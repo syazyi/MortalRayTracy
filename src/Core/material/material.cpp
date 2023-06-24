@@ -3,14 +3,14 @@
 namespace mortal
 {
 		
-    Color Material::Emitted(float u, float v, const Point3 &p) const
+    Color Material::Emitted(double u, double v, const Point3 &p) const
     {
-        return Color(0.0f, 0.0f, 0.0f);
+        return Color(0.0, 0.0, 0.0);
     }
 
 
 	bool MaterialDefault::Scatter(const Ray& rayIn, const HitResult& hitInfo, Color& attenuation, Ray& rayOut) {
-		attenuation = Color(0.0f, 0.0f, 0.0f);
+		attenuation = Color(0.0, 0.0, 0.0);
 		return true;
 	}
 

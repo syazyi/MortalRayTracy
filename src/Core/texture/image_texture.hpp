@@ -7,7 +7,7 @@ namespace mortal
     public:
         ImageTexture() = default;
         ImageTexture(const char* filename);
-        virtual Color TextureSample(float u, float v, const Point3& p) const;
+        virtual Color TextureSample(double u, double v, const Point3& p) const;
     private:
         void* m_Data{ nullptr };
         int m_TextureWidth;

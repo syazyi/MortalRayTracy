@@ -5,12 +5,12 @@ namespace mortal
     class Ray{
     public:
         Point3 original;
-        Vec3f direction;
-        float time{ 0.0f }; // add move blur
+        Vec3 direction;
+        double time{ 0.0 }; // add move blur
     public:
         Ray() = default;
-        Ray(const Point3& _orig, const Vec3f& _dir, float _time);
+        Ray(const Point3& _orig, const Vec3& _dir, double _time);
 
-        Vec3f at(float t) const;
+        Vec3 at(double t) const;
     };
 } // namespace mortal

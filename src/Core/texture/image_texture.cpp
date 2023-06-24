@@ -15,14 +15,14 @@ namespace mortal
 
     }
 
-    Color ImageTexture::TextureSample(float u, float v, const Point3 &p) const
+    Color ImageTexture::TextureSample(double u, double v, const Point3 &p) const
     {
         if(m_Data == nullptr){
-            return Color(0.0f, 1.0f, 1.0f);
+            return Color(0.0, 1.0, 1.0);
         }
         
-        u = Clamp(u, 0.0f, 1.0f);
-        v = 1 - Clamp(v, 0.0f, 1.0f);
+        u = Clamp(u, 0.0, 1.0);
+        v = 1 - Clamp(v, 0.0, 1.0);
 
         auto i = static_cast<int>(u * m_TextureWidth);
         auto j = static_cast<int>(v * m_TextureHeight);
@@ -31,7 +31,7 @@ namespace mortal
         if (i >= m_TextureWidth) i = m_TextureWidth - 1;
         if (j >= m_TextureHeight) j = m_TextureHeight - 1;
 
-        auto ColorScale = 1.0f / 255.0f;
+        auto ColorScale = 1.0 / 255.0;
 
         auto pixel = reinterpret_cast<uint8_t*>(m_Data) + j * m_BytesPerScanline + i * BytesPerPixel;
 

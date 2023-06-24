@@ -8,10 +8,10 @@ namespace mortal
         {
             return degrees * Pi * OdPi;
         }
-        float KSqrt(float x){
+        double KSqrt(double x){
 //not be use
 #ifdef DEBUGNOT
-            float a = x;
+            double a = x;
             auto p = (unsigned int*)&x;
             *p = (*p + 0x3f76cf62) >> 1;
             x = (x + a / x) / 2;
@@ -22,21 +22,22 @@ namespace mortal
 
         }
 
-        float InvSqrt(float x)
+        double InvSqrt(double x)
         {
-            float xhalf = 0.5f * x;
+            double xhalf = 0.5f * x;
             int i = *(int*)&x;
             i = 0x5f3759df - (i >> 1);
-            x = *(float*)&i;
+            x = *(double*)&i;
             x = x * (1.5f - xhalf * x * x);
             return x;
         }
 
         Float KRandom()
         {
-            static std::uniform_real_distribution<Float> distribution(0.0, 1.0);
+            /*static std::uniform_real_distribution<Float> distribution(0.0, 1.0);
             static std::mt19937 generator;
-            return distribution(generator);
+            return distribution(generator);*/
+            return rand() / (RAND_MAX + 1.0);
         }
 
         Float KRandom(Float min, Float max)
