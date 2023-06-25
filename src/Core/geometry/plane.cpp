@@ -66,7 +66,18 @@ namespace mortal
 
     bool Plane::AxisAlignBoundBox(double time0, double time1, AABB& aabb) const
     {
-        return true;
+        switch (m_Category)
+        {
+        case mortal::PlaneCategory::EXY:
+            aabb = AABB(Point3(m_P11, m_P12, m_K- 0.0001), Point3(m_P21, m_P22, m_K + 0.0001));
+            return true;
+        case mortal::PlaneCategory::EYZ:
+            aabb = AABB(Point3(m_K - 0.0001, m_P11, m_P12), Point3(m_K - 0.0001, m_P21, m_P22));
+            return true;
+        case mortal::PlaneCategory::EXZ:
+            aabb = AABB(Point3(m_P11, m_K - 0.0001, m_P12), Point3(m_P21, m_K - 0.0001, m_P22));
+            return true;
+        }
     }
 
 

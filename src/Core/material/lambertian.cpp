@@ -6,19 +6,19 @@ namespace mortal
 	}
 	bool Lambertian::Scatter(const Ray& rayIn, const HitResult& hitInfo, Color& attenuation, Ray& rayOut)
 	{
-		Vec3 rayOutDir;
+		/*Vec3 rayOutDir;
 		while (1)
 		{
 			rayOutDir = SampleUnitSphere();
 			if (Dot(hitInfo.normal, rayOutDir) > 0.0f) {
 				break;
 			}
-		}
+		}*/
 
-		/*auto rayOutDir = hitInfo.normal + SampleUnitSphere();
+		auto rayOutDir = hitInfo.normal + SampleUnitSphere();
 		if (rayOutDir.NearZero()) {
 			rayOutDir = hitInfo.normal;
-		}*/
+		}
 		rayOut = Ray(hitInfo.position, rayOutDir, rayIn.time);
 		attenuation = m_Albedo;
 		return true;

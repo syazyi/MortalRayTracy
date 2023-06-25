@@ -9,12 +9,15 @@
 #include "geometry/sphere.hpp"
 #include "geometry/plane.hpp"
 #include "geometry/move_sphere.hpp"
+#include "geometry/box.hpp"
+#include "geometry/constant_medium.hpp"
 #include "material/material.hpp"
 #include "material/lambertian.hpp"
 #include "material/metal.hpp"
 #include "material/dielectric.hpp"
 #include "material/lambertian_texture.hpp"
 #include "material/diffuse_light.hpp"
+#include "material/isotropic.hpp"
 #include "texture/check_texture.hpp"
 #include "texture/image_texture.hpp"
 namespace mortal
@@ -226,13 +229,22 @@ namespace mortal
                 materials.Add("WhiteDiffuse", std::make_shared<Lambertian>(Color(0.73, 0.73, 0.73)));
                 materials.Add("GreenDiffuse", std::make_shared<Lambertian>(Color(0.12, 0.45, 0.15)));
                 materials.Add("Light", std::make_shared<DiffuseLight>(Color(15.0, 15.0, 15.0)));
+                materials.Add("IsotropicWhite", std::make_shared<Isotropic>(Color(1.0, 1.0, 1.0)));
+                materials.Add("IsotropicBlack", std::make_shared<Isotropic>(Color(0.0, 0.0, 0.0)));
 
                 world.Add(std::make_shared<Plane>(0.0, 0.0, 555.0, 555.0, 555.0, PlaneCategory::EYZ, materials.Get("GreenDiffuse")));
                 world.Add(std::make_shared<Plane>(0.0, 0.0, 555.0, 555.0, 0.0, PlaneCategory::EYZ, materials.Get("RedDiffuse")));
-                world.Add(std::make_shared<Plane>(213.0, 227.0, 343.0, 332.0, 554.999, PlaneCategory::EXZ, materials.Get("Light")));
+                world.Add(std::make_shared<Plane>(113.0, 127.0, 443.0, 432.0, 554.999, PlaneCategory::EXZ, materials.Get("Light")));
                 world.Add(std::make_shared<Plane>(0.0, 0.0, 555.0, 555.0, 0.0, PlaneCategory::EXZ, materials.Get("WhiteDiffuse")));
                 world.Add(std::make_shared<Plane>(0.0, 0.0, 555.0, 555.0, 555.0, PlaneCategory::EXZ, materials.Get("WhiteDiffuse")));
                 world.Add(std::make_shared<Plane>(0.0, 0.0, 555.0, 555.0, 555.0, PlaneCategory::EXY, materials.Get("WhiteDiffuse")));
+
+                //auto box1 = std::make_shared<Box>(Point3(130.0, 0.0, 65.0), Point3(295.0, 165.0, 230.0), materials.Get("WhiteDiffuse"));
+                //auto box2 = std::make_shared<Box>(Point3(265.0, 0.0, 295.0), Point3(430.0, 330.0, 460.0), materials.Get("WhiteDiffuse"));
+                //world.Add(std::make_shared<ConstantMedium>(box1, 0.01, materials.Get("IsotropicWhite")));
+                //world.Add(std::make_shared<ConstantMedium>(box2, 0.01, materials.Get("IsotropicBlack")));
+                world.Add(std::make_shared<Box>(Point3(130.0, 0.0, 65.0), Point3(295.0, 165.0, 230.0), materials.Get("WhiteDiffuse")));
+                world.Add(std::make_shared<Box>(Point3(265.0, 0.0, 295.0), Point3(430.0, 330.0, 460.0), materials.Get("WhiteDiffuse")));
             }
             break;
         }
