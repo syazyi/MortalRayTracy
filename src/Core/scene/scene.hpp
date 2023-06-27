@@ -36,7 +36,7 @@ namespace mortal
     public:
         static const int width = 600;
         static const int height = 600;
-        static const int antialiasingSamplerCount = 1000;
+        static const int antialiasingSamplerCount = 100;
         inline static std::array<std::array<Color, width>, height> framebuffer;
     private:
         HitList world;

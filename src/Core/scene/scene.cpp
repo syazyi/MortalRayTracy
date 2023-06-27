@@ -55,10 +55,11 @@ namespace mortal
             //Todo:Through hitresult information to get an new ray
             //auto reflectRay = GetReflectDir(hitResult);
             Ray reflectRay;
-            Color attenuation;
+            Color albedo;
             Color emitted = hitResult.material->Emitted(hitResult.u, hitResult.v, hitResult.position);
-            if (hitResult.material->Scatter(ray, hitResult, attenuation, reflectRay)) {
-                return attenuation * RayCastColor(reflectRay, depth - 1) + emitted;
+            double pdf;
+            if (hitResult.material->Scatter(ray, hitResult, albedo, reflectRay, pdf)) {
+                return (albedo * hitResult.material->ScatterPDF(ray, hitResult, reflectRay) *  RayCastColor(reflectRay, depth - 1)) / pdf + emitted;
             }
             return emitted;
         }
@@ -234,7 +235,8 @@ namespace mortal
 
                 world.Add(std::make_shared<Plane>(0.0, 0.0, 555.0, 555.0, 555.0, PlaneCategory::EYZ, materials.Get("GreenDiffuse")));
                 world.Add(std::make_shared<Plane>(0.0, 0.0, 555.0, 555.0, 0.0, PlaneCategory::EYZ, materials.Get("RedDiffuse")));
-                world.Add(std::make_shared<Plane>(113.0, 127.0, 443.0, 432.0, 554.999, PlaneCategory::EXZ, materials.Get("Light")));
+                world.Add(std::make_shared<Plane>(213, 227, 343, 332, 554.999, PlaneCategory::EXZ, materials.Get("Light")));
+                //world.Add(std::make_shared<Plane>(113.0, 127.0, 443.0, 432.0, 554.999, PlaneCategory::EXZ, materials.Get("Light")));
                 world.Add(std::make_shared<Plane>(0.0, 0.0, 555.0, 555.0, 0.0, PlaneCategory::EXZ, materials.Get("WhiteDiffuse")));
                 world.Add(std::make_shared<Plane>(0.0, 0.0, 555.0, 555.0, 555.0, PlaneCategory::EXZ, materials.Get("WhiteDiffuse")));
                 world.Add(std::make_shared<Plane>(0.0, 0.0, 555.0, 555.0, 555.0, PlaneCategory::EXY, materials.Get("WhiteDiffuse")));
@@ -243,8 +245,12 @@ namespace mortal
                 //auto box2 = std::make_shared<Box>(Point3(265.0, 0.0, 295.0), Point3(430.0, 330.0, 460.0), materials.Get("WhiteDiffuse"));
                 //world.Add(std::make_shared<ConstantMedium>(box1, 0.01, materials.Get("IsotropicWhite")));
                 //world.Add(std::make_shared<ConstantMedium>(box2, 0.01, materials.Get("IsotropicBlack")));
+
                 world.Add(std::make_shared<Box>(Point3(130.0, 0.0, 65.0), Point3(295.0, 165.0, 230.0), materials.Get("WhiteDiffuse")));
                 world.Add(std::make_shared<Box>(Point3(265.0, 0.0, 295.0), Point3(430.0, 330.0, 460.0), materials.Get("WhiteDiffuse")));
+
+              // world.Add(std::make_shared<Sphere>(Point3(430.0, 82.5, 295.0), 82.5, materials.Get("WhiteDiffuse")));
+               //world.Add(std::make_shared<Sphere>(Point3(150.0, 100.0, 295.0), 100.0, materials.Get("WhiteDiffuse")));
             }
             break;
         }

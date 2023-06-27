@@ -3,12 +3,12 @@
 namespace mortal
 {
     
-    ConstantMedium::ConstantMedium(std::shared_ptr<IHittbale> b, double neg_inv_density, const Color& c) : m_Boundary(b), m_NegInvDensity(1.0 / neg_inv_density), 
+    ConstantMedium::ConstantMedium(std::shared_ptr<IHittbale> b, double neg_inv_density, const Color& c) : m_Boundary(b), m_NegInvDensity(-1.0 / neg_inv_density), 
         m_Material(std::make_shared<Isotropic>(c))
     {
     }
 
-    ConstantMedium::ConstantMedium(std::shared_ptr<IHittbale> b, double neg_inv_density, std::shared_ptr<Material> mPtr) : m_Boundary(b), m_NegInvDensity(1.0 / neg_inv_density),
+    ConstantMedium::ConstantMedium(std::shared_ptr<IHittbale> b, double neg_inv_density, std::shared_ptr<Material> mPtr) : m_Boundary(b), m_NegInvDensity(-1.0 / neg_inv_density),
         m_Material(mPtr)
     {
     }

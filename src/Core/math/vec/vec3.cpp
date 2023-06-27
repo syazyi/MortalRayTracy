@@ -74,7 +74,7 @@ namespace mortal
 
         Vec3 SampleUnitSphere()
         {
-            Vec3 ret;
+            /*Vec3 ret;
             auto theta = acos(1 - 2.0 * KRandom());
             auto phi = KRandom() * Pi * 2.0;
 
@@ -82,7 +82,7 @@ namespace mortal
             ret.y = sin(theta) * sin(phi);
             ret.z = cos(theta);
 
-            return ret;
+            return ret;*/
 
             /*while (1) {
                 Vec3 ret(KRandom(-1.0, 1.0), KRandom(-1.0, 1.0), KRandom(-1.0, 1.0));
@@ -91,6 +91,16 @@ namespace mortal
                 }
                 return ret.NormalLize();
             }*/
+
+            auto r1 = KRandom();
+            auto r2 = KRandom();
+            auto z = sqrt(1 - r2);
+            auto phi = 2 * Pi * r1;
+            auto x = cos(phi) * sqrt(r2);
+            auto y = sin(phi) * sqrt(r2);
+            return Vec3(x, y, z);
+
+
         }
 
         Vec3 SampleHemisphere()

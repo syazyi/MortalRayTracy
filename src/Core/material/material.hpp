@@ -9,7 +9,9 @@ namespace mortal
     struct HitResult;
     class Material {
     public:
-        virtual bool Scatter(const Ray& rayIn, const HitResult& hitInfo, Color& attenuation, Ray& rayOut) = 0;
+        virtual bool Scatter(const Ray& rayIn, const HitResult& hitInfo, Color& albedo, Ray& rayOut) = 0;
+        virtual bool Scatter(const Ray& rayIn, const HitResult& hitInfo, Color& albedo, Ray& rayOut, double& pdf);
+        virtual double ScatterPDF(const Ray& rayIn, const HitResult& hitInfo, const Ray& RayOut);
         virtual Color Emitted(double u, double v, const Point3& p) const;
         ~Material() {};
     };

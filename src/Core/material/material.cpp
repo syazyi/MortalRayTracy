@@ -2,8 +2,15 @@
 
 namespace mortal
 {
-		
-    Color Material::Emitted(double u, double v, const Point3 &p) const
+	bool Material::Scatter(const Ray& rayIn, const HitResult& hitInfo, Color& albedo, Ray& rayOut, double& pdf)
+	{
+		return false;
+	}
+	double Material::ScatterPDF(const Ray& rayIn, const HitResult& hitInfo, const Ray& RayOut)
+	{
+		return 0.0;
+	}
+	Color Material::Emitted(double u, double v, const Point3 &p) const
     {
         return Color(0.0, 0.0, 0.0);
     }
