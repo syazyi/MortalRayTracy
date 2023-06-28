@@ -21,5 +21,7 @@ namespace mortal
     public:
         virtual bool HitIntersectionRay(const Ray& ray, double tMin, double tMax, HitResult& hitResult) const = 0;
         virtual bool AxisAlignBoundBox(double time0, double time1, AABB& aabb) const = 0;
+        virtual double PDFValue(const Point3& shaderpoint, const Vec3& vec) const;
+        virtual Vec3 Random(const Point3& shaderpoint) const;
     };
 } // namespace mortal

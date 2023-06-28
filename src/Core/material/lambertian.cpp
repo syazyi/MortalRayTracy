@@ -39,7 +39,7 @@ namespace mortal
 
 		ONB uvw;
 		uvw.BuildFromW(hitInfo.normal);
-		auto rayOutDir = uvw.local(SampleUnitSphere()).NormalLize();
+		auto rayOutDir = uvw.local(SampleHemisphere()).NormalLize();
 		rayOut = Ray(hitInfo.position, rayOutDir, rayIn.time);
 		albedo = m_Albedo;
 		pdf = Dot(rayOut.direction, uvw.w) * OneDivPi;

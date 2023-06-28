@@ -80,6 +80,29 @@ namespace mortal
         }
     }
 
+    double Plane::PDFValue(const Point3& shaderpoint, const Vec3& vec) const
+    {
+        HitResult hitResult;
+        if (!this->HitIntersectionRay(Ray(shaderpoint, vec), 0.001, Infinity, hitResult)) {
+            return 0.0;
+        }
+
+        auto area = (m_P21 - m_P11) * (m_P22 - m_P12);
+        auto cossine = fabs(Dot(hitResult.normal, Normal(vec)));
+        auto distance = (hitResult.position - shaderpoint).Module();
+        distance = distance * distance;
+        return distance / (area * cossine);
+    }
+
+    Vec3 Plane::Random(const Point3& shaderpoint) const
+    {
+        if (m_Category == PlaneCategory::EXZ)
+        {
+            return Vec3(KRandom(m_P11, m_P21), m_K, KRandom(m_P12, m_P22)) - shaderpoint;
+        }
+        return Vec3();
+    }
+
 
 
 } // namespace mortal

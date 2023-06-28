@@ -20,6 +20,9 @@
 #include "material/isotropic.hpp"
 #include "texture/check_texture.hpp"
 #include "texture/image_texture.hpp"
+#include "pdf/cosine_pdf.hpp"
+#include "pdf/light_pdf.hpp"
+#include "pdf/mixture_pdf.hpp"
 namespace mortal
 {
     Color Scene::BackgroundColor(const Ray& ray){
@@ -34,32 +37,24 @@ namespace mortal
 	    WriteInPPMTest(width, height);
     }
 
-    Color Scene::RayCastColor(const Ray& ray, uint8_t depth)
+    Color Scene::RayCastColor(const Ray& ray, std::shared_ptr<IHittbale> light, uint8_t depth)
     {
-        /*if (sphere.IsIntersectionRay(ray)) {
-            return Color(1.0, 0.0, 0.0);
-        }*/
-
         if (depth == 0) {
             return Color(0.0, 0.0, 0.0);
         }
 
         HitResult hitResult;
         if (world.HitIntersectionRay(ray, 0.001, Infinity, hitResult)) {
-            /*
-                print normal
-                auto normal = hitResult.normal;
-                return 0.5 * Color(normal.x + 1.f, normal.y + 1.f, normal.z + 1.f);
-            */
-
-            //Todo:Through hitresult information to get an new ray
-            //auto reflectRay = GetReflectDir(hitResult);
             Ray reflectRay;
             Color albedo;
             Color emitted = hitResult.material->Emitted(hitResult.u, hitResult.v, hitResult.position);
             double pdf;
             if (hitResult.material->Scatter(ray, hitResult, albedo, reflectRay, pdf)) {
-                return (albedo * hitResult.material->ScatterPDF(ray, hitResult, reflectRay) *  RayCastColor(reflectRay, depth - 1)) / pdf + emitted;
+                //BRDF = albedo * hitResult.material->ScatterPDF(ray, hitResult, reflectRay) / cossine
+                MixturePDF mixturepdf(std::make_shared<CosinePDF>(hitResult.normal), std::make_shared<LightPDF>(light, hitResult.position));
+                reflectRay = Ray(hitResult.position, mixturepdf.Generate(), ray.time);
+                pdf = mixturepdf.Value(reflectRay.direction);
+                return (albedo * hitResult.material->ScatterPDF(ray, hitResult, reflectRay) *  RayCastColor(reflectRay, light, depth - 1)) / pdf + emitted;
             }
             return emitted;
         }
@@ -75,17 +70,8 @@ namespace mortal
         materials.Add("Right_Metal", std::make_shared<Metal>(Color(0.8f, 0.6f, 0.2f)));
         materials.Add("Dielectric", std::make_shared<Dielectric>(1.5f));
 
-        //world
-        //world.Add(std::make_shared<Sphere>(Point3(0.0, -100.5, -1.0), 100.0, materials.Get("Ground")));
-        //world.Add(std::make_shared<Sphere>(Point3(0.0, 0.0, -1.0), 0.5f, materials.Get("Center")));
-        //world.Add(std::make_shared<Sphere>(Point3(-1.0, 0.0, -1.0), 0.5f, materials.Get("Dielectric")));
-        //world.Add(std::make_shared<Sphere>(Point3(-1.0, 0.0, -1.0), -0.4f, materials.Get("Dielectric")));
-        //world.Add(std::make_shared<Sphere>(Point3(1.0, 0.0, -1.0), 0.5f, materials.Get("Right_Metal")));
         Camera camera;
-
-        RandomWorld(WorldType::ECornellBox, camera);
-
-        //Camera
+        auto light = RandomWorld(WorldType::ECornellBox, camera);
 
         double bar = 1;
         std::ofstream myfile;
@@ -102,7 +88,7 @@ namespace mortal
                     auto u = double(j + KRandom()) / (width - 1);
                     auto v = double(i + KRandom()) / (height - 1);
                     Ray ray = camera.GetRay(u, v);
-                    color += RayCastColor(ray, 50);
+                    color += RayCastColor(ray, light, 50);
                 }
                 color /= antialiasingSamplerCount;
                 framebuffer[height - 1 - i][j] = color;
@@ -133,8 +119,9 @@ namespace mortal
         std::cout << "\nDone.\n";
     }
 
-    void mortal::Scene::RandomWorld(WorldType type, Camera& camera)
+    std::shared_ptr<IHittbale> mortal::Scene::RandomWorld(WorldType type, Camera& camera)
     {
+        std::shared_ptr<IHittbale> lightPtr{nullptr};
         switch (type)
         {
         case WorldType::ERandomWorld :
@@ -235,7 +222,8 @@ namespace mortal
 
                 world.Add(std::make_shared<Plane>(0.0, 0.0, 555.0, 555.0, 555.0, PlaneCategory::EYZ, materials.Get("GreenDiffuse")));
                 world.Add(std::make_shared<Plane>(0.0, 0.0, 555.0, 555.0, 0.0, PlaneCategory::EYZ, materials.Get("RedDiffuse")));
-                world.Add(std::make_shared<Plane>(213, 227, 343, 332, 554.999, PlaneCategory::EXZ, materials.Get("Light")));
+                lightPtr = std::make_shared<Plane>(213, 227, 343, 332, 554.999, PlaneCategory::EXZ, materials.Get("Light"));
+                world.Add(lightPtr);
                 //world.Add(std::make_shared<Plane>(113.0, 127.0, 443.0, 432.0, 554.999, PlaneCategory::EXZ, materials.Get("Light")));
                 world.Add(std::make_shared<Plane>(0.0, 0.0, 555.0, 555.0, 0.0, PlaneCategory::EXZ, materials.Get("WhiteDiffuse")));
                 world.Add(std::make_shared<Plane>(0.0, 0.0, 555.0, 555.0, 555.0, PlaneCategory::EXZ, materials.Get("WhiteDiffuse")));
@@ -254,5 +242,6 @@ namespace mortal
             }
             break;
         }
+        return lightPtr;
     }
 } // namespace mortal

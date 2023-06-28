@@ -4,7 +4,7 @@ namespace mortal
 {
     class ONB {
     public:
-        ONB() {}
+        ONB() = default;
 
         Vec3 local(double a, double b, double c) const {
             return a * u + b * v + c * w;

@@ -9,6 +9,7 @@ namespace mortal
         double time{ 0.0 }; // add move blur
     public:
         Ray() = default;
+        Ray(const Point3& _orig, const Vec3& _dir);
         Ray(const Point3& _orig, const Vec3& _dir, double _time);
 
         Vec3 at(double t) const;

@@ -6,14 +6,6 @@
 namespace mortal
 {
     class Camera;
-    //class Camera {
-    //public:
-    //    Point3 position;
-    //    double fov;
-    //    double aspect;
-    //    double near;
-    //    double far;
-    //};
 
     enum class WorldType{
         ERandomWorld,
@@ -26,17 +18,17 @@ namespace mortal
     public:
         static Color BackgroundColor(const Ray& ray);
         void Play();
-        Color RayCastColor(const Ray& ray, uint8_t depth);
+        Color RayCastColor(const Ray& ray, std::shared_ptr<IHittbale> light, uint8_t depth);
     private:
         void WriteInPPMTest(const int width, const int height);
         void WriteInPPMSingleColor(const int width, const int height, const Color& color);
 
         //only Test
-        void RandomWorld(WorldType type, Camera& camera);
+        std::shared_ptr<IHittbale> RandomWorld(WorldType type, Camera& camera);
     public:
         static const int width = 600;
         static const int height = 600;
-        static const int antialiasingSamplerCount = 100;
+        static const int antialiasingSamplerCount = 1000;
         inline static std::array<std::array<Color, width>, height> framebuffer;
     private:
         HitList world;
