@@ -10,7 +10,11 @@ namespace mortal
 	{
 		return 0.0;
 	}
-	Color Material::Emitted(double u, double v, const Point3 &p) const
+	Vec3 Material::BRDF(const Ray &rayIn, const HitResult &hitInfo, const Ray &RayOut)
+    {
+        return Vec3();
+    }
+    Color Material::Emitted(double u, double v, const Point3 &p) const
     {
         return Color(0.0, 0.0, 0.0);
     }

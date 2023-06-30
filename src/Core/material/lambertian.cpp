@@ -53,4 +53,9 @@ namespace mortal
 		return cosine < 0.0 ? 0.0 : cosine * OneDivPi;
 	}
 
+    Vec3 Lambertian::BRDF(const Ray &rayIn, const HitResult &hitInfo, const Ray &RayOut)
+    {
+        return m_Albedo * OneDivPi;
+    }
+
 } // namespace mortal

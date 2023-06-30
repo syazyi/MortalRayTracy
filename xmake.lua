@@ -16,7 +16,8 @@ target("external")
     add_rules("utils.symbols.export_all", {export_classes = true})
     add_includedirs("src/ext/stb_image/", {public = true})
     add_files("src/ext/stb_image/**.cpp", { public = true  })
-
+    add_includedirs("src/ext/objloader/", {public = true})
+    add_files("src/ext/objloader/**.cpp", { public = true  })
 
 target("scene")
     set_kind("static")

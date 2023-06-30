@@ -12,6 +12,7 @@ namespace mortal
         virtual bool Scatter(const Ray& rayIn, const HitResult& hitInfo, Color& albedo, Ray& rayOut) = 0;
         virtual bool Scatter(const Ray& rayIn, const HitResult& hitInfo, Color& albedo, Ray& rayOut, double& pdf);
         virtual double ScatterPDF(const Ray& rayIn, const HitResult& hitInfo, const Ray& RayOut);
+        virtual Vec3 BRDF(const Ray& rayIn, const HitResult& hitInfo, const Ray& RayOut);
         virtual Color Emitted(double u, double v, const Point3& p) const;
         ~Material() {};
     };

@@ -23,6 +23,7 @@ namespace mortal
             Vec3& operator/=(const double right);
             double& operator[](const size_t index);
             double operator[](const size_t index) const;
+            bool operator==(const Vec3& rhs) const;
         public:
             double x{ 0.0 };
             double y{ 0.0 };

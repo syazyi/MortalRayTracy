@@ -72,6 +72,11 @@ namespace mortal
             return const_cast<Vec3*>(this)->operator[](index);
         }
 
+        bool Vec3::operator==(const Vec3& rhs) const
+        {
+            return this->x == rhs.x && this->y == rhs.y && this->z == rhs.z;
+        }
+
         Vec3 SampleUnitSphere()
         {
             Vec3 ret;

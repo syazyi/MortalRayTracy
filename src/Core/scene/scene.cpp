@@ -54,7 +54,12 @@ namespace mortal
                 MixturePDF mixturepdf(std::make_shared<CosinePDF>(hitResult.normal), std::make_shared<LightPDF>(light, hitResult.position));
                 reflectRay = Ray(hitResult.position, mixturepdf.Generate(), ray.time);
                 pdf = mixturepdf.Value(reflectRay.direction);
-                return (albedo * hitResult.material->ScatterPDF(ray, hitResult, reflectRay) *  RayCastColor(reflectRay, light, depth - 1)) / pdf + emitted;
+                //return (albedo * hitResult.material->ScatterPDF(ray, hitResult, reflectRay) *  RayCastColor(reflectRay, light, depth - 1)) / pdf + emitted;
+                auto cosine = Dot(reflectRay.direction, hitResult.normal);
+                if (cosine < 0.0) {
+                    cosine = 0.0;
+                }
+                return hitResult.material->BRDF(ray, hitResult, reflectRay) * (cosine *  RayCastColor(reflectRay, light, depth - 1)) / pdf + emitted;
             }
             return emitted;
         }
